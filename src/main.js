@@ -6,7 +6,6 @@ const config = {
     type: Phaser.WEBGL,
     pixelArt: true,
     roundPixels: true,
-    parent: 'content',
     width: 800,
     height: 600,
     physics: {
@@ -18,10 +17,19 @@ const config = {
             debug: false
         }
     },
-    scene: [
-        BootScene,
-        GameScene
-    ]
 };
 
-const game = new Phaser.Game(config); // eslint-disable-line no-unused-vars
+class Game extends Phaser.Game {
+    constructor() {
+        super(config);
+        this.scene.add('BootScene', BootScene);
+        this.scene.add('GameScene', GameScene);
+
+        this.scene.start('BootScene');
+    }
+}
+
+
+window.onload = function () {
+    window.game = new Game();
+}

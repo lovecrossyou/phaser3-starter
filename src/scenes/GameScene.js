@@ -1,5 +1,6 @@
 import Player from '../sprites/Player';
 class GameScene extends Phaser.Scene {
+
     constructor(test) {
         super({
             key: 'GameScene'
@@ -8,9 +9,12 @@ class GameScene extends Phaser.Scene {
 
     preload() {
         // this.load.scenePlugin('animatedTiles', AnimatedTiles, 'animatedTiles', 'animatedTiles');
+
     }
 
     create() {
+        this.cursors = this.input.keyboard.createCursorKeys();
+
         this.add.image(400, 300, 'sky');
         this.platforms = this.physics.add.staticGroup();
 
@@ -26,6 +30,12 @@ class GameScene extends Phaser.Scene {
             x: 16 * 6,
             y: this.sys.game.config.height - 48 - 48
         })
+    }
+
+    update() {
+        if (this.cursors.left.isDown) {
+            this.player.anims.play('left', true);
+        }
     }
 }
 

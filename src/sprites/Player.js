@@ -1,9 +1,8 @@
 export default class Enemy extends Phaser.GameObjects.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
-        config.scene.physics.world.enable(this);
+        // config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
-        this.cursors = config.scene.input.keyboard.createCursorKeys();
         this.small(config.scene);
     }
 
@@ -30,7 +29,10 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     }
 
 
-    update(keys, time, delta) {
-
+    update() {
+        console.log('xx');
+        // if (this.cursors.left.isDown) {
+        //     this.anims.play('left', true);
+        // }
     }
 }
