@@ -61,6 +61,10 @@ class GameScene extends Phaser.Scene {
             this.player.setVelocityX(160);
             this.player.play('right', true);
         }
+        else if (this.cursors.up.isDown) {
+            this.player.setVelocityY(-260);
+            this.player.play('idle', true);
+        }
         else {
             this.player.setVelocityX(0);
             this.player.play('idle', true);
