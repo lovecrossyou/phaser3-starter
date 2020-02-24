@@ -55,7 +55,7 @@ class GameScene extends Phaser.Scene {
     update() {
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-160);
-            this.player.anims.play('left', true);
+            this.player.play('left', true);
         }
         else if (this.cursors.right.isDown) {
             this.player.setVelocityX(160);
@@ -63,7 +63,7 @@ class GameScene extends Phaser.Scene {
         }
         else {
             this.player.setVelocityX(0);
-            this.player.anims.play('idle', true);
+            this.player.play('idle', true);
         }
     }
 }
