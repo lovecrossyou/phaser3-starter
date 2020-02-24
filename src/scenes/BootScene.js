@@ -8,12 +8,11 @@ class BootScene extends Phaser.Scene {
     }
     preload() {
         const progress = this.add.graphics();
-
         // Register a load progress event to show a load bar
         this.load.on('progress', (value) => {
             progress.clear();
             progress.fillStyle(0xffffff, 1);
-            // progress.fillRect(0, this.sys.game.config.height / 2, this.sys.game.config.width * value, 60);
+            progress.fillRect(0, this.sys.game.config.height / 2, this.sys.game.config.width * value, 60);
         });
 
         // Register a load complete event to launch the title screen when all files are loaded
@@ -22,11 +21,17 @@ class BootScene extends Phaser.Scene {
             makeAnimations(this);
             progress.destroy();
             this.scene.start('GameScene');
+
         });
 
-        this.load.image('background-clouds', 'assets/images/blue-sky.png'); // 16-bit later
-        this.load.image("touch", 'assets/images/touch.png');
-
+        this.load.image('sky', 'assets/images/sky.png');
+        this.load.image('ground', 'assets/images/platform.png');
+        this.load.image('star', 'assets/images/star.png');
+        this.load.image('bomb', 'assets/images/fireball.png');
+        this.load.spritesheet('dude',
+            'assets/images/dude.png',
+            { frameWidth: 32, frameHeight: 48 }
+        );
     }
 }
 
