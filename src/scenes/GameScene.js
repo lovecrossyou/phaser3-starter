@@ -36,6 +36,12 @@ class GameScene extends Phaser.Scene {
         if (this.cursors.left.isDown) {
             this.player.anims.play('left', true);
         }
+        else if (this.cursors.right.isDown) {
+            this.player.anims.play('right', true);
+        }
+        else{
+            // this.player.anims.play('turn', true);
+        }
     }
 }
 

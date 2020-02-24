@@ -27,12 +27,4 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             repeat: -1
         });
     }
-
-
-    update() {
-        console.log('xx');
-        // if (this.cursors.left.isDown) {
-        //     this.anims.play('left', true);
-        // }
-    }
 }
