@@ -1,3 +1,5 @@
+import { Bullet } from "../sprites/Bullet";
+
 class GameScene extends Phaser.Scene {
 
     constructor(test) {
@@ -7,7 +9,7 @@ class GameScene extends Phaser.Scene {
         this.platforms = null;
         this.player = null;
         this.stars = null;
-
+        this.bullets = null;
         this.gamePadMode = false;
     }
 
@@ -17,6 +19,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         var pic = this.add.image(400, 300, 'sky');
         Phaser.Display.Align.In.Center(pic, this.add.zone(400, 300, 800, 600));
@@ -106,6 +109,15 @@ class GameScene extends Phaser.Scene {
             gameObject.y = 0;
             this.gamePadMode = false;
         });
+
+
+        // 子弹
+        this.bullets = this.add.group({
+            classType: Bullet,
+            maxSize: 200,
+            runChildUpdate: true
+        });
+
     }
 
     collectStar(player, star) {
@@ -142,6 +154,13 @@ class GameScene extends Phaser.Scene {
             else {
                 this.player.setVelocityX(0);
                 this.player.play('idle', true);
+            }
+
+            if (this.keySpace.isDown) {
+                var bullet = this.bullets.get();
+                if (bullet) {
+                    bullet.fire(this.player.x, this.player.y);
+                }
             }
 
         }
