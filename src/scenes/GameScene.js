@@ -75,7 +75,7 @@ class GameScene extends Phaser.Scene {
         // 手柄 内部滑动小圈
         this.innerGamePad = this.add.sprite(0, 0, 'touch').setInteractive().setScale(0.5);
         this.input.setDraggable(this.innerGamePad);
-        this.gamePadContainer = this.add.container(100, 260).setScale(1.5);
+        this.gamePadContainer = this.add.container(0, 0);
         this.gamePadContainer.add(this.innerGamePad);
         Phaser.Display.Align.In.Center(this.gamePadContainer, this.gamePad);
 
