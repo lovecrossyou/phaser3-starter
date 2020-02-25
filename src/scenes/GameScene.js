@@ -18,7 +18,9 @@ class GameScene extends Phaser.Scene {
     create() {
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.add.image(400, 300, 'sky');
+        var pic = this.add.image(400, 300, 'sky');
+        Phaser.Display.Align.In.Center(pic, this.add.zone(400, 300, 800, 600));
+
         this.platforms = this.physics.add.staticGroup();
 
         this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -65,12 +67,19 @@ class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.stars, this.platforms);
         this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
-        // 手柄
+
+        // 手柄 大圈
         this.gamePad = this.add.sprite(100, 260, "touch", 0).setScale(1.6);
+        Phaser.Display.Align.In.BottomLeft(this.gamePad, this.add.zone(400, 300, 800, 600));
 
+        // 手柄 内部滑动小圈
         this.innerGamePad = this.add.sprite(0, 0, 'touch').setInteractive().setScale(0.5);
-
         this.input.setDraggable(this.innerGamePad);
+        this.gamePadContainer = this.add.container(100, 260).setScale(1.5);
+        this.gamePadContainer.add(this.innerGamePad);
+        Phaser.Display.Align.In.Center(this.gamePadContainer, this.gamePad);
+
+
         this.input.on('dragstart', (pointer, gameObject) => {
             gameObject.setTint(0xff0000);
             this.gamePadMode = true;
@@ -97,10 +106,6 @@ class GameScene extends Phaser.Scene {
             gameObject.y = 0;
             this.gamePadMode = false;
         });
-
-
-        this.gamePadContainer = this.add.container(100, 260).setScale(1.5);
-        this.gamePadContainer.add(this.innerGamePad);
     }
 
     collectStar(player, star) {

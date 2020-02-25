@@ -29,7 +29,26 @@ class Game extends Phaser.Game {
     }
 }
 
-
 window.onload = function () {
     window.game = new Game();
+    window.focus();
+    resize();
+    window.addEventListener('resize', resize, false);
+    function resize() {
+        var canvas = document.querySelector('canvas');
+        var windowWidth = window.innerWidth;
+        var windowHeight = window.innerHeight;
+        var windowRatio = windowWidth / windowHeight;
+        var gameRatio = config.width / config.height;
+        if (windowRatio < gameRatio) {
+            // canvas.style.width = windowWidth + 'px';
+            canvas.style.width = '100%';
+            canvas.style.height = (windowWidth / gameRatio) + 'px';
+        } else {
+            // canvas.style.width = (windowHeight * gameRatio) + 'px';
+            canvas.style.width = '100%';
+            // canvas.style.height = '100%';
+            canvas.style.height = windowHeight + 'px';
+        }
+    }
 }
