@@ -113,7 +113,7 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        if (this.gamePadMode == true) {
+        if (this.gamePadMode == true) {// 手柄操作
             if (this.innerGamePad.x < 0) {
                 this.player.play('left', true);
                 this.player.x += this.innerGamePad.x / 10;
@@ -126,7 +126,7 @@ class GameScene extends Phaser.Scene {
                 this.player.play('right', true);
             }
         }
-        else {
+        else { // 键盘操作
             if (this.cursors.left.isDown) {
                 this.player.setVelocityX(-160);
                 this.player.play('left', true);
