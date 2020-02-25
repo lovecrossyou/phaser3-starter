@@ -7,6 +7,8 @@ class GameScene extends Phaser.Scene {
         this.platforms = null;
         this.player = null;
         this.stars = null;
+
+        this.gamePadMode = false;
     }
 
     preload() {
@@ -58,12 +60,47 @@ class GameScene extends Phaser.Scene {
             setXY: { x: 12, y: 0, stepX: 70 }
         })
         this.stars.children.iterate(function (child) {
-
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
         });
         this.physics.add.collider(this.stars, this.platforms);
         this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
+
+        // 手柄
+        this.gamePad = this.add.sprite(100, 260, "touch", 0).setScale(1.6);
+
+        this.innerGamePad = this.add.sprite(0, 0, 'touch').setInteractive().setScale(0.5);
+
+        this.input.setDraggable(this.innerGamePad);
+        this.input.on('dragstart', (pointer, gameObject) => {
+            gameObject.setTint(0xff0000);
+            this.gamePadMode = true;
+        });
+
+        this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+
+            var d = Math.sqrt(dragX * dragX + dragY * dragY); // 计算拖动距离(第3、4个参数很有用)
+            if (d > 30) {
+                d = 30;
+            }
+
+            var r = Math.atan2(dragY, dragX);
+
+            gameObject.x = Math.cos(r) * d;
+
+            gameObject.y = Math.sin(r) * d;
+
+        });
+
+        this.input.on('dragend', (pointer, gameObject) => {
+            gameObject.clearTint();
+            gameObject.x = 0;
+            gameObject.y = 0;
+            this.gamePadMode = false;
+        });
+
+
+        this.gamePadContainer = this.add.container(100, 260).setScale(1.5);
+        this.gamePadContainer.add(this.innerGamePad);
     }
 
     collectStar(player, star) {
@@ -71,21 +108,37 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-160);
-            this.player.play('left', true);
-        }
-        else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(160);
-            this.player.play('right', true);
-        }
-        else if (this.cursors.up.isDown) {
-            this.player.setVelocityY(-260);
-            this.player.play('idle', true);
+        if (this.gamePadMode == true) {
+            if (this.innerGamePad.x < 0) {
+                this.player.play('left', true);
+                this.player.x += this.innerGamePad.x / 10;
+            }
+            else if (this.innerGamePad.x > 0) {
+                this.player.play('right', true);
+                this.player.x += this.innerGamePad.x / 10;
+            }
+            else {
+                this.player.play('right', true);
+            }
         }
         else {
-            this.player.setVelocityX(0);
-            this.player.play('idle', true);
+            if (this.cursors.left.isDown) {
+                this.player.setVelocityX(-160);
+                this.player.play('left', true);
+            }
+            else if (this.cursors.right.isDown) {
+                this.player.setVelocityX(160);
+                this.player.play('right', true);
+            }
+            else if (this.cursors.up.isDown) {
+                this.player.setVelocityY(-260);
+                this.player.play('idle', true);
+            }
+            else {
+                this.player.setVelocityX(0);
+                this.player.play('idle', true);
+            }
+
         }
     }
 }

@@ -32,6 +32,10 @@ class BootScene extends Phaser.Scene {
             'assets/images/dude.png',
             { frameWidth: 32, frameHeight: 48 }
         );
+        this.load.spritesheet('touch',
+            'assets/images/touch.png',
+            { frameWidth: 64, frameHeight: 64 }
+        );
     }
 }
 
